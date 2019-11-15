@@ -11,8 +11,8 @@ import moment from "moment";
 import DatePicker from "react-date-picker";
 
 class ReservarTurnos extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       especialidadList: [],
       profesionalesList: [],
@@ -78,8 +78,10 @@ class ReservarTurnos extends React.Component {
   };
   changeMotivo = e => {
     console.log(e);
+    var input = document.getElementById("motivo");
     var { formData } = this.state;
-    formData.motivo = e.target.motivo;
+    formData.motivo = input.value;
+    console.log(input.value);
     this.setState({ formData: formData });
   };
 
@@ -99,12 +101,13 @@ class ReservarTurnos extends React.Component {
       motivo: formData.motivo,
       paciente: JSON.parse(sessionStorage.getItem("userData")).dni
     };
-    if(form){
-
+    if (form) {
       guardarTurno(form).then(result => {
-      console.log(result);
-    });
-    } else {alert("faltan completar campos")}
+        console.log(result);
+      });
+    } else {
+      alert("faltan completar campos");
+    }
   };
 
   render() {
@@ -113,46 +116,47 @@ class ReservarTurnos extends React.Component {
         <Header></Header>
         <h1>Reservar turno</h1>
 
-        <form onSubmit={this.guardar}>
-          <label>Especialidad:</label>
-          <select onChange={this.onChangeEspecialidad} class="form-control">
-            <option value={null}>Elija alguna opcion</option>
-            {this.state.especialidadList.length > 0 &&
-              this.state.especialidadList.map(value => {
-                return (
-                  <option value={value.descripcionEspecialidad}>
-                    {value.descripcionEspecialidad}
-                  </option>
-                );
-              })}
-          </select>
+        <div class="container">
+          <form onSubmit={this.guardar}>
+            <label>Especialidad:</label>
+            <select onChange={this.onChangeEspecialidad} class="form-control">
+              <option value={null}>Elija alguna opcion</option>
+              {this.state.especialidadList.length > 0 &&
+                this.state.especialidadList.map(value => {
+                  return (
+                    <option value={value.descripcionEspecialidad}>
+                      {value.descripcionEspecialidad}
+                    </option>
+                  );
+                })}
+            </select>
 
-          <label>Profesional:</label>
-          <select
-            onChange={this.onChangeProfesional}
-            class="form-control"
-            disabled={this.state.profesionalesList.length < 1}
-          >
-            <option value={null}>Elija un Profesional</option>
-            {this.state.profesionalesList.length > 0 &&
-              this.state.profesionalesList.map(value => {
-                return (
-                  <option value={value.nroMatricula}>
-                    {`${value.apellido}, ${value.nombre}`}
-                  </option>
-                );
-              })}
-          </select>
+            <label>Profesional:</label>
+            <select
+              onChange={this.onChangeProfesional}
+              class="form-control"
+              disabled={this.state.profesionalesList.length < 1}
+            >
+              <option value={null}>Elija un Profesional</option>
+              {this.state.profesionalesList.length > 0 &&
+                this.state.profesionalesList.map(value => {
+                  return (
+                    <option value={value.nroMatricula}>
+                      {`${value.apellido}, ${value.nombre}`}
+                    </option>
+                  );
+                })}
+            </select>
 
-          <DatePicker
-            onChange={value => this.handleChangeFechaConsulta({ value })}
-            value={this.state.formData.fechaConsulta}
-          />
-          {/* <DatePicker
+            <DatePicker
+              onChange={value => this.handleChangeFechaConsulta({ value })}
+              value={this.state.formData.fechaConsulta}
+            />
+            {/* <DatePicker
               onChange={value => this.handleChangeFechaConsulta({ value })}
               value={this.state.formData.fechaConsulta}
             /> */}
-
+            {/* 
           <label for="exampleFormControlInput1">
             Motivo
             <input
@@ -163,31 +167,44 @@ class ReservarTurnos extends React.Component {
               type="text"
               placeholder="Ingresar Motivo"
             />
-          </label>
+          </label> */}
+            <label>Motivo</label>
+            <div class="form-group">
+              <input
+                type="text"
+                name="motivo"
+                id="motivo"
+                value={this.state.formData.motivo}
+                onChange={this.changeMotivo}
+                class="form-control"
+                placeholder="Ingresar Motivo"
+              />
+            </div>
 
-          <div class="conainer">
-            <div class="row">
-              <div class="col">
-                <button
-                  onClick={() => this.props.history.push("MenuUsuario")}
-                  type="button"
-                  class="btn btn-outline-secondary btn-lg btn-block"
-                >
-                  Cancelar
-                </button>
-              </div>
-              <div class="col">
-                <button
-                  //   onClick={() => this.guardar()}
-                  type="submit"
-                  class="btn btn-outline-secondary btn-lg btn-block"
-                >
-                  Guardar
-                </button>
+            <div class="conainer">
+              <div class="row">
+                <div class="col">
+                  <button
+                    onClick={() => this.props.history.push("MenuUsuario")}
+                    type="button"
+                    class="btn btn-outline-secondary btn-lg btn-block"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+                <div class="col">
+                  <button
+                    //   onClick={() => this.guardar()}
+                    type="submit"
+                    class="btn btn-outline-secondary btn-lg btn-block"
+                  >
+                    Guardar
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
         <Footer></Footer>
       </div>
     );

@@ -12,14 +12,14 @@ BEGIN
 
     START TRANSACTION;
     
-		 SET @existe = IF((SELECT 1 FROM Turnos t WHERE t.fechaAtencion = fecha AND t.horaAtencion = hora limit 1) =1, 1, 0);
+		 SET @existe = IF((SELECT 1 FROM turnos t WHERE t.fechaAtencion = fecha AND t.horaAtencion = hora and t.profesional = medico limit 1) =1, 1, 0);
           SELECT @existe;
         
-        SET @numeroHC = (SELECT p.numeroHistoriaClinica from Pacientes p where p.numeroDniPaciente = paciente limit 1);
+        SET @numeroHC = (SELECT p.numeroHistoriaClinica from pacientes p where p.numeroDniPaciente = paciente limit 1);
         
 			IF (@existe = 0)
 			THEN
-				INSERT INTO Turnos
+				INSERT INTO turnos
 					(`fechaAsignacion`, `horaAsignacion`, `motivoConsulta`, `atencionMedicaId`, `paciente`, `profesional`, `fechaAtencion`, `horaAtencion`)
 				VALUES
 					(now(), now(), motivo, null, @numeroHC, medico, fecha, hora);
