@@ -10,7 +10,7 @@ module.exports = {
           data[0].forEach(element => {
               historialModel.push(HistorialModel.historialDrogas(element.droga, element.nombre, element.duracion));
           });
-        res.send(historialModel);
+        res.send("ok");
       })
       .catch(error => {
         res.send(error);
