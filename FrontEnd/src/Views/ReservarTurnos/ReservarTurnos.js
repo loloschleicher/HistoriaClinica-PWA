@@ -85,9 +85,14 @@ class ReservarTurnos extends React.Component {
     this.setState({ formData: formData });
   };
 
-  guardar = e => {
+  //stop the reload action by pressing submit button
+  handleSubmit = event => {
+    event.preventDefault();
+  }; //END handleSubmit()------------------------------------------------------------------------------------------------------------
+
+  guardar = () => {
     var { formData } = this.state;
-    console.log(e);
+    // console.log(e);
     var horaConsultaSplit = formData.horaConsulta.split(":");
     var fecha = formData.fechaConsulta.setHours(
       horaConsultaSplit[0],
@@ -104,6 +109,11 @@ class ReservarTurnos extends React.Component {
     if (form) {
       guardarTurno(form).then(result => {
         console.log(result);
+        if ((result.exito = 1)) {
+          alert("Se guardó correctamente el turno");
+        } else {
+          alert("Error al guardar el turno");
+        }
       });
     } else {
       alert("faltan completar campos");
@@ -117,7 +127,7 @@ class ReservarTurnos extends React.Component {
         <h1>Reservar turno</h1>
 
         <div class="container">
-          <form onSubmit={this.guardar}>
+          <form onSubmit={this.handleSubmit}>
             <label>Especialidad:</label>
             <select onChange={this.onChangeEspecialidad} class="form-control">
               <option value={null}>Elija alguna opcion</option>
@@ -194,8 +204,8 @@ class ReservarTurnos extends React.Component {
                 </div>
                 <div class="col">
                   <button
-                    //   onClick={() => this.guardar()}
-                    type="submit"
+                    onClick={() => this.guardar()}
+                    // type="submit"
                     class="btn btn-outline-secondary btn-lg btn-block"
                   >
                     Guardar

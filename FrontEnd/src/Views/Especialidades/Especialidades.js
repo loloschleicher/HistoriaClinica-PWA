@@ -36,14 +36,25 @@ class Especialidades extends React.Component {
               <button
                 type="button"
                 class="btn btn-outline-primary btn-lg btn-block"
-                onClick={() => this.goToEspecialidad(item.descripcionEspecialidad)}
+                onClick={() =>
+                  this.goToEspecialidad(item.descripcionEspecialidad)
+                }
                 style={{ marginBottom: 10 }}
               >
                 {item.descripcionEspecialidad}
               </button>
             </div>
           ))}
-          <Footer></Footer>
+        {this.state.especialidadList.length <= 0 && (
+          <div
+            class="spinner-border text-primary"
+            role="status"
+            style={{ display: "table", margin: "0 auto", marginBottom: 20 }}
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        )}
+        <Footer></Footer>
       </div>
     );
   }
