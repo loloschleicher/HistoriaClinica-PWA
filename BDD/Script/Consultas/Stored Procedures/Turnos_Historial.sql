@@ -6,14 +6,13 @@ BEGIN
     select      pro.especialidad,
                 pro.apellido,
                 pro.nombre,
-                tur.fechaAsignacion,
-                tur.horaAsignacion,
-                year(tur.fechaAsignacion) as anioAsignado,
-                month(tur.fechaAsignacion) as mesAsignado, 
-                day(tur.fechaAsignacion) as diaAsignado,
+                year(tur.fechaAtencion) as anioAtencion,
+                month(tur.fechaAtencion) as mesAtencion, 
+                day(tur.fechaAtencion) as diaAtencion,
                 tur.horaAtencion,
-                if((current_date()> tur.fechaAsignacion or current_date() = tur.fechaAsignacion) 
-                        and current_time() > tur.horaAsignacion,"Atendido","No Atendido") as estado
+                tur.fechaAtencion,
+                if((current_date()> tur.fechaAtencion or current_date() = tur.fechaAtencion) 
+                        and current_time() > tur.horaAtencion,"Atendido","No Atendido") as estado
     from        Pacientes pac inner join 
                 Turnos tur on 
                 pac.numeroHistoriaClinica = tur.paciente  inner join 

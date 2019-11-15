@@ -99,9 +99,12 @@ class ReservarTurnos extends React.Component {
       motivo: formData.motivo,
       paciente: JSON.parse(sessionStorage.getItem("userData")).dni
     };
-    guardarTurno(form).then(result => {
+    if(form){
+
+      guardarTurno(form).then(result => {
       console.log(result);
     });
+    } else {alert("faltan completar campos")}
   };
 
   render() {
